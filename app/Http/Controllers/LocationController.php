@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LocationController extends Controller
 {
@@ -40,5 +41,22 @@ class LocationController extends Controller
         $results = $this->searchAutoCities($request);
 
         return response()->json($results);
+    }
+
+    public function timeZone($city){
+
+   
+    /* $timezone = DB::table('locations')->where('city_name', $city)->get();
+     /*dd($timezone);*/
+       /* foreach ($timezone as $key => $zone){
+            
+            echo '<option value = "'.$zone->time_zone.'"> '.$zone->time_zone.'  </option>';
+            
+        }*/
+
+
+         $timezone = DB::table('locations')->where('city_name', $city)->get();
+        return json_encode($timezone);
+
     }
 }

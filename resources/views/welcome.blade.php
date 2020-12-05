@@ -39,9 +39,29 @@
               
                 <form class = "mt-5" method="POST" <?php /* Lecture 18 */?> action="" class="form-inline">
                     <div class="form-group">
-                        <label class="sr-only" for="city">City</label>
-                        <input name="city" value="{{ old('city') /* Lecture 19 */ }}" type="text" class="form-control autocomplete" id="city" placeholder="City">
+                        <!-- <label class="sr-only" for="city">City Name</label> -->
+                        <label> City Name</label>
+                        <input name="city" value="{{ old('city') /* Lecture 19 */ }}" type="text" class="form-control autocomplete"   id="city" placeholder="City">
                     </div>
+
+                    <!--  <div class="col-lg-4">
+                <div class="form-group mg-b-10-force">
+                  <label class="form-control-label">TimeZone: <span class="tx-danger">*</span></label>
+                  <select class="form-control select2" data-placeholder="Choose Category" name = "timezone">
+                   
+                  </select>
+                </div>
+              </div><!-- col-4 --> 
+
+               <div class="form-group">
+                    
+                    <div class="col-sm-12">
+                     <select name="timezone" class="form-control" id="timezone_holder">
+                    
+                    </select>
+                   <!--  <input type = "text" name = "timezone" class="form-control" id = "timezone_holder"> -->
+                  </div>
+                 </div>
                     
                    
                     <!-- <button type="submit" class="btn btn-warning">Search</button> -->
@@ -56,11 +76,13 @@
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
+        
+
         <script type="text/javascript">
             
             $(function () {
                 $(".autocomplete").autocomplete({
-                    source: base_url + "/searchCities", /* Lecture 17 */
+                    source: base_url + "/searchCities", 
                     minLength: 2,
                     select: function (event, ui) {
                         
@@ -73,6 +95,60 @@
 
         </script>
 
+       <!-- <script type="text/javascript">
+            function get_timezone(city){
+                console.log(city);
+                alert(city);
+                $.ajax({
+                     url: "{{ url('/get/city/') }}/"+city,
+                    success:    function(response){
+                        console.log(response);
+
+                        //jQuery('#timezone_holder').html(response);
+                         $("#timezone_holder").html(response);
+
+                        
+
+                    } 
+
+                });
+            }
+</script> -->
+
+
+ <script type="text/javascript">
+      $(document).ready(function(){
+     $('input[name="city"]').on('change',function(e){
+        var city = e.target.value;
+          /*var city = $(this).val();*/
+          if (city) {
+            
+            $.ajax({
+              url: "{{ url('/get/city') }}/"+city,
+              type:"GET",
+              dataType:"json",
+              success:function(data) { 
+              var d =$('select[name="timezone"]').empty();
+              $.each(data, function(key, value){
+              
+              $('select[name="timezone"]').append('<option value="'+ value.time_zone + '">' + value.time_zone + '</option>');
+
+              
+
+              });
+              },
+            });
+
+          }else{
+            alert('danger');
+          }
+
+            });
+      });
+
+ </script>
+
+ 
        
 
         

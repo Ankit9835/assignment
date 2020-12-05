@@ -16,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'LocationController@index')->name('test');
    
 Route::get('/searchCities', 'LocationController@searchCities');
+Route::get('get/city/{city}', 'LocationController@timeZone');
 
